@@ -15,30 +15,34 @@
 class DetectorScan : public QQuickPaintedItem
 {
     Q_OBJECT
-    Q_PROPERTY(QString filename WRITE setFilename READ getFilename)
-    Q_PROPERTY(int thresh READ getThresh WRITE setThresh )
+    Q_PROPERTY(QString firstFile  WRITE setFirstFilename  MEMBER firstFile)
+    Q_PROPERTY(QString secondFile WRITE setSecondFilename MEMBER secondFile)
 
 public:
     DetectorScan(QQuickItem *item = nullptr);
     void paint(QPainter * painter);
 
+    Q_INVOKABLE void pyramidLK();
 
 private:
-    QString filename;
+    QString firstFile;
+    QString secondFile;
+    void    setFirstFilename( QString _fn );
+    void    setSecondFilename( QString _fn );
 
-    void    setFilename( QString _fn );
-    QString getFilename() ;
-
-    int thresh;
-    void setThresh( int _th );
-    int  getThresh();
-
-    void OpenFileFromDisk(); // openFile from disk to src_frame
-
-//    OpenCV methods for image processing
-    void DrawContours( int _thresh );
+    void OpenFileFromDisk(int8_t ident); // openFile from disk to src_frame
 
     QImage draw_img;
+    QImage draw_img2;
+    QImage draw_img3;
+
+
+
+    cv::Mat imgA;
+    cv::Mat imgB;
+    cv::Size img_sz;
+    cv::Mat imgC;
+
     cv::Mat src_frame;
     cv::Mat dst_frame; // все изменения проводимые в OpenCV проводятся с данным объектом
 
