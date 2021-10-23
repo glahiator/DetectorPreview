@@ -10,13 +10,13 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
-
 #include <opencv2/imgproc.hpp>
 
 class DetectorScan : public QQuickPaintedItem
 {
     Q_OBJECT
-    Q_PROPERTY(QString filepath WRITE setFilename READ getFilename)
+    Q_PROPERTY(QString filename WRITE setFilename READ getFilename)
+    Q_PROPERTY(int thresh READ getThresh WRITE setThresh )
 
 public:
     DetectorScan(QQuickItem *item = nullptr);
@@ -29,11 +29,18 @@ private:
     void    setFilename( QString _fn );
     QString getFilename() ;
 
-    QImage src_img;
-    QImage dst_img;
-    cv::Mat src_frame;
-    cv::Mat dst_frame;
+    int thresh;
+    void setThresh( int _th );
+    int  getThresh();
 
+    void OpenFileFromDisk(); // openFile from disk to src_frame
+
+//    OpenCV methods for image processing
+    void DrawContours( int _thresh );
+
+    QImage draw_img;
+    cv::Mat src_frame;
+    cv::Mat dst_frame; // все изменения проводимые в OpenCV проводятся с данным объектом
 
 signals:
 

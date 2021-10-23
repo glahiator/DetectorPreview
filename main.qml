@@ -3,19 +3,22 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Dialogs 1.2
+import QtQuick.Layouts 1.0
 import DetectorScan 1.0
 
 Window {
     id: wind
     width: 640
     height: 480
+
     visible: true
     title: qsTr("Hello World")
 
     DetectorScan {
         id: detector
         anchors.fill: parent
-        filepath: "ss"
+        filename: ""
+        thresh: slider.value
     }
 
     FileDialog {
@@ -24,15 +27,13 @@ Window {
         folder: shortcuts.pictures
         visible: false
         onAccepted: {
-            console.log("You chose: " + fileDialog.fileUrls)
             btn_file_open.visible = false
-            detector.filepath = fileDialog.fileUrl
-        }
-        onRejected: {
-            console.log("Canceled")
+            detector.filename = fileDialog.fileUrl
         }
         Component.onCompleted: visible = true
     }
+
+
 
     Button{
         id: btn_file_open
@@ -43,4 +44,31 @@ Window {
         onClicked: fileDialog.visible = true;
     }
 
+    RowLayout {
+        spacing: 20
+        y: wind.height - 50
+
+        Slider {
+            id: slider
+            width: 226
+            live: true
+            stepSize: 10
+            to: 255
+            value: 100
+        }
+        SpinBox {
+            id: spinBox
+            stepSize: 0
+            editable: false
+            to: 255
+            value: slider.value
+        }
+
+        Label {
+            id: label
+            x: 230
+            text: qsTr("Threshold")
+            font.pointSize: 12
+        }
+    }
 }
