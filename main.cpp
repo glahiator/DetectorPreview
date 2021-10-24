@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "DetectorScan.h"
+#include "Threshold.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,9 +12,9 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<DetectorScan>("DetectorScan", 1, 0, "DetectorScan");
-
+    qmlRegisterType<Threshold>("opencv.Threshold", 1, 0, "ThresholdScan");
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/Threshold.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)

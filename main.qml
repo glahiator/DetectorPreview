@@ -4,6 +4,8 @@ import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.12
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.0
+
+
 import DetectorScan 1.0
 
 ApplicationWindow {
@@ -12,7 +14,60 @@ ApplicationWindow {
     height: 480
 
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("Workspace")
+
+    menuBar: MenuBar{
+        id: menuBar
+
+        Menu {
+            id: fileMenu
+            title: qsTr("File")
+            // ...
+        }
+
+        Menu {
+            id: editMenu
+            title: qsTr("&Edit")
+            // ...
+        }
+
+        Menu {
+            id: viewMenu
+            title: qsTr("&View")
+            // ...
+        }
+
+        Menu {
+            id: imgProcess
+            title: qsTr("Image processing")
+            Menu {
+                title: qsTr("Threshold")
+                MenuItem {
+                    text: qsTr("Threshold")
+                }
+                MenuItem {
+                    text: qsTr("Threshold adaptive")
+                }
+
+            }
+
+
+        }
+
+        Menu {
+            id: helpMenu
+            title: qsTr("&Help")
+            // ...
+        }
+    }
+
+    header: ToolBar {
+
+    }
+
+    footer: TabBar {
+
+    }
 
     DetectorScan {
         id: detector

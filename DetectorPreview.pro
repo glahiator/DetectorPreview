@@ -8,6 +8,7 @@ CONFIG += c++11
 
 SOURCES += \
         DetectorScan.cpp \
+        Threshold.cpp \
         main.cpp
 
 RESOURCES += qml.qrc
@@ -35,4 +36,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    DetectorScan.h
+    DetectorScan.h \
+    Threshold.h
