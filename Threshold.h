@@ -19,6 +19,9 @@ public:
     void paint(QPainter * painter);
 
     Q_INVOKABLE void threshold(double _thresh, double _mv, int _type);
+    Q_INVOKABLE void threshold_alt(double _thresh, double _mv, int _type);
+    Q_INVOKABLE void threshold_adapt(double _mv, int _adapt_meth, int _type, int _bs, double _const);
+
 private:
     QString filename;
     void    setFilename( QString _fn );
