@@ -223,7 +223,7 @@ Window {
 
             SpinBox {
                 id: sb_blocksize
-                editable: true
+                editable: false
                 value: 15
                 stepSize: 2
                 Layout.preferredHeight: 40
@@ -234,6 +234,7 @@ Window {
                                     sb_blocksize.value,
                                     sb_offset.value );
                 Layout.preferredWidth: 140
+                from: 3
                 to: 255
             }
 

@@ -52,6 +52,7 @@ void Threshold::threshold_alt(double _thresh, double _mv, int _type)
 
 void Threshold::threshold_adapt( double _mv, int _adapt_meth, int _type, int _bs, double _const)
 {
+    qDebug() << _bs;
     cv::Mat gray_img;
     cv::cvtColor( src_frame, gray_img, cv::COLOR_BGR2GRAY );
 
