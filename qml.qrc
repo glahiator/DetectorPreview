@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>Threshold.qml</file>
+        <file>Smoothing.qml</file>
     </qresource>
 </RCC>

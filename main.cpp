@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include "DetectorScan.h"
 #include "Threshold.h"
+#include "Smoothing.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,8 +14,9 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<DetectorScan>("DetectorScan", 1, 0, "DetectorScan");
     qmlRegisterType<Threshold>("opencv.Threshold", 1, 0, "ThresholdScan");
+    qmlRegisterType<Smoothing>("opencv.Smoothing", 1, 0, "SmoothingScan");
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/Threshold.qml"));
+    const QUrl url(QStringLiteral("qrc:/Smoothing.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
         if (!obj && url == objUrl)
