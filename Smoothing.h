@@ -9,6 +9,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc.hpp>
+#include <opencv2/core/base.hpp>
 
 class Smoothing : public QQuickPaintedItem
 {
@@ -20,6 +21,11 @@ public:
 
     QString filename;
 
+    Q_INVOKABLE void boxFilterDraw(QSize s, QPoint p, bool isNorma, int borderType );
+    Q_INVOKABLE void medianBlur(int apert_lin_size);
+    Q_INVOKABLE void gaussianBlur(QSize s, double sigmaX, double sigmaY, int borderType);
+    Q_INVOKABLE void bilateralFilter(int d, double sigmaColor, double sigmaSpace, int borderType );
+    Q_INVOKABLE void resetImage( );
 
     void setFilename( QString _fn );
 
