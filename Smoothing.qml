@@ -380,6 +380,8 @@ Window {
         }
 
         SpinBox {
+            value: 9
+            from: -10
             id: sb_pixel_neigh
             onValueChanged: bilateralFilter();
         }
@@ -396,11 +398,12 @@ Window {
                 top: Math.max(sb_sigma_color.from, sb_sigma_color.to)
             }
             property int decimals: 2
+            property real realValue: value / 100
             textFromValue: function(value, locale) {
                 return Number(value / 100).toLocaleString(locale, 'f', sb_sigma_color.decimals)
             }
             stepSize: 10
-            value: 100
+            value: 2000
             valueFromText: function(text, locale) {
                 return Number.fromLocaleString(locale, text) * 100
             }
@@ -425,12 +428,13 @@ Window {
                 top: Math.max(sb_sigmaX.from, sb_sigmaX.to)
             }
             property int decimals: 2
+            property real realValue: value / 100
             textFromValue: function(value, locale) {
                 return Number(value / 100).toLocaleString(locale, 'f', sb_sigmaX.decimals)
             }
             stepSize: 10
 
-            value: 0
+            value: 500
             valueFromText: function(text, locale) {
                 return Number.fromLocaleString(locale, text) * 100
             }

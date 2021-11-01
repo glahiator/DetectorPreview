@@ -77,6 +77,9 @@ void Smoothing::bilateralFilter(int d, double sigmaColor, double sigmaSpace, int
         qDebug() << "empty source" ;
         return;
     }
+
+    qDebug() << d << sigmaColor << sigmaSpace;
+
     cv::bilateralFilter(
                 src_frame, // Input image
                 dst_frame, // Result image
@@ -111,6 +114,9 @@ void Smoothing::setFilename(QString _fn)
     emit filenameChanged(filename);
 
     src_frame = cv::imread(filename.toStdString());
+
+
+    qDebug() << "IMAGE PREF" << src_frame.type() << src_frame.depth() << src_frame.rows << src_frame.cols;
 
     if( src_frame.empty() ){
         qDebug() << filename << "error loading" ;
