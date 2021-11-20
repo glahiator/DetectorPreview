@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>Threshold.qml</file>
         <file>Smoothing.qml</file>
+        <file>Filter.qml</file>
     </qresource>
 </RCC>

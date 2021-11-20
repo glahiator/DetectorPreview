@@ -408,8 +408,8 @@ Window {
                 return Number.fromLocaleString(locale, text) * 100
             }
             editable: true
-            to: 10000
-            from: -10000
+            to: 100000
+            from: -100000
 
             onValueChanged: {
                 bilateralFilter();
@@ -439,8 +439,8 @@ Window {
                 return Number.fromLocaleString(locale, text) * 100
             }
             editable: true
-            to: 10000
-            from: -10000
+            to: 100000
+            from: -100000
 
             onValueChanged: {
                 bilateralFilter();

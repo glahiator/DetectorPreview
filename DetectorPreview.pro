@@ -8,6 +8,7 @@ CONFIG += c++11
 
 SOURCES += \
         DetectorScan.cpp \
+        Filter.cpp \
         Smoothing.cpp \
         Threshold.cpp \
         main.cpp
@@ -38,5 +39,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     DetectorScan.h \
+    Filter.h \
     Smoothing.h \
     Threshold.h

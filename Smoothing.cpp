@@ -116,7 +116,7 @@ void Smoothing::setFilename(QString _fn)
     src_frame = cv::imread(filename.toStdString());
 
 
-    qDebug() << "IMAGE PREF" << src_frame.type() << src_frame.depth() << src_frame.rows << src_frame.cols;
+    qDebug() << "IMAGE PREF" << src_frame.channels() << src_frame.type() << src_frame.depth() << src_frame.rows << src_frame.cols;
 
     if( src_frame.empty() ){
         qDebug() << filename << "error loading" ;
