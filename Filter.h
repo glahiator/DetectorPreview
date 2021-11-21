@@ -24,6 +24,7 @@ public:
     Q_INVOKABLE void filter2DImage(QMatrix4x4 _m);
     Q_INVOKABLE void sobelDeriv( int xorder, int yorder, int ksize, double scale, double delta );
     Q_INVOKABLE void scharrDeriv( int xorder, int yorder, double scale, double delta );
+    Q_INVOKABLE void laplacianDeriv(int ksize, double scale, double delta);
 
     void setFilename( QString _fn );
 

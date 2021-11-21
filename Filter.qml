@@ -32,6 +32,9 @@ Window {
         if( is_scharr.checked ) {
             filter_scan.scharrDeriv(x_ord, y_ord, scale, delta);
         }
+        if( is_laplac.checked ) {
+            filter_scan.laplacianDeriv(ksize, scale, delta);
+        }
         else{
             filter_scan.sobelDeriv(x_ord, y_ord, ksize, scale, delta);
         }
@@ -290,6 +293,8 @@ Window {
 
                         RowLayout {
                             spacing: 4
+                            visible: (is_laplac.checked) ? false : true
+
 
                             Text {
                                 id: text1
@@ -310,6 +315,7 @@ Window {
 
                         RowLayout {
                             spacing: 4
+                            visible: (is_laplac.checked) ? false : true
 
                             Text {
                                 id: text2
@@ -330,6 +336,7 @@ Window {
 
                         RowLayout {
                             spacing: 4
+                             visible: (is_scharr.checked) ? false : true
 
                             Text {
                                 id: text3
@@ -346,6 +353,7 @@ Window {
                                 from: 1
                                 value: 3
                                 onValueChanged: sobel();
+
                             }
                         }
 
@@ -395,11 +403,20 @@ Window {
                                 sobel();
                             }
                         }
-                        CheckBox {
-                            id: is_scharr
-                            text: "SCHARR"
-                            checked: false
-                            onClicked: sobel();
+                        RowLayout {
+                            spacing: 2
+                            CheckBox {
+                                id: is_scharr
+                                text: "SCHARR"
+                                checked: false
+                                onClicked: sobel();
+                            }
+                            CheckBox {
+                                id: is_laplac
+                                text: "LAPLAS"
+                                checked: false
+                                onClicked: sobel();
+                            }
                         }
                     }
 

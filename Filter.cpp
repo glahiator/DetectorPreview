@@ -90,6 +90,30 @@ void Filter::scharrDeriv(int xorder, int yorder, double scale, double delta)
     this->update();
 }
 
+void Filter::laplacianDeriv(int ksize, double scale, double delta)
+{
+    if( src_frame.empty() ){
+        qDebug() << "empty source" ;
+        return;
+    }
+
+    int ddepth = -1;
+
+    cv::Laplacian(src_frame, // Input image
+                  dst_frame, // Result image
+                  ddepth, // Pixel depth of output (e.g., CV_8U)
+                  ksize, // Kernel size
+                  scale, // Scale (applied before assignment)
+                  delta, // Offset (applied before assignment)
+                  cv::BORDER_DEFAULT // Border extrapolation
+                  );
+
+    cv::cvtColor( dst_frame, dst_frame, cv::COLOR_BGR2RGB );
+    draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
+    this->update();
+
+}
+
 void Filter::setFilename(QString _fn)
 {
     if( _fn.isEmpty() ){
