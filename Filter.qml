@@ -29,8 +29,12 @@ Window {
         var scale = sb_scale.value;
         var delta = sb_delta.value;
 
-
-        filter_scan.sobelDeriv(x_ord, y_ord, ksize, scale, delta);
+        if( is_scharr.checked ) {
+            filter_scan.scharrDeriv(x_ord, y_ord, scale, delta);
+        }
+        else{
+            filter_scan.sobelDeriv(x_ord, y_ord, ksize, scale, delta);
+        }
     }
 
     Rectangle {
@@ -298,7 +302,7 @@ Window {
                             SpinBox {
                                 id: sb_x_order
                                 to: 3
-                                from: 1
+                                from: 0
                                 value: 1
                                 onValueChanged: sobel();
                             }
@@ -318,7 +322,7 @@ Window {
                             SpinBox {
                                 id: sb_y_order
                                 to: 3
-                                from: 1
+                                from: 0
                                 value: 1
                                 onValueChanged: sobel();
                             }
@@ -357,7 +361,7 @@ Window {
 
                             SpinBox {
                                 id: sb_scale
-                                stepSize: 10
+                                stepSize: 1
                                 to: 200
                                 from: 1
                                 value: 1
@@ -386,10 +390,16 @@ Window {
                         Button {
                             id: btn_sobel
                             text: "Sobel"
-                            anchors.horizontalCenter:  parent.horizontalCenter
+
                             onClicked: {
                                 sobel();
                             }
+                        }
+                        CheckBox {
+                            id: is_scharr
+                            text: "SCHARR"
+                            checked: false
+                            onClicked: sobel();
                         }
                     }
 

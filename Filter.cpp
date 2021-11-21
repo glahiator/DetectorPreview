@@ -67,6 +67,29 @@ void Filter::sobelDeriv( int xorder, int yorder, int ksize, double scale, double
     this->update();
 }
 
+void Filter::scharrDeriv(int xorder, int yorder, double scale, double delta)
+{
+    if( src_frame.empty() ){
+        qDebug() << "empty source" ;
+        return;
+    }
+
+    int ddepth = -1;
+
+    cv::Scharr( src_frame, // Input image
+                dst_frame, // Result image
+                ddepth, // Pixel depth of output (e.g., CV_8U)
+                xorder, // order of corresponding derivative in x
+                yorder, // order of corresponding derivative in y
+                scale, // Scale (applied before assignment)
+                delta, // Offset (applied before assignment)
+                cv::BORDER_DEFAULT // Border extrapolation
+                );
+    cv::cvtColor( dst_frame, dst_frame, cv::COLOR_BGR2RGB );
+    draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
+    this->update();
+}
+
 void Filter::setFilename(QString _fn)
 {
     if( _fn.isEmpty() ){
