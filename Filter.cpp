@@ -24,8 +24,11 @@ void Filter::resetImage()
 
 void Filter::filter2DImage( QMatrix4x4 _m )
 {
+    if( src_frame.empty() ){
+        qDebug() << "empty source" ;
+        return;
+    }
 
-    qDebug() << _m(0,0) << _m(0,1) <<  _m(0,2);
     cv::Matx33f f2dkernel( _m(0,0), _m(0,1), _m(0,2),
                            _m(1,0), _m(1,1), _m(1,2),
                            _m(2,0), _m(2,1), _m(2,2));
@@ -37,6 +40,31 @@ void Filter::filter2DImage( QMatrix4x4 _m )
     this->update();
 
 
+}
+
+void Filter::sobelDeriv( int xorder, int yorder, int ksize, double scale, double delta )
+{
+    if( src_frame.empty() ){
+        qDebug() << "empty source" ;
+        return;
+    }
+
+    int ddepth = -1;
+
+    cv::Sobel( src_frame, // Input image
+               dst_frame, // Result image
+               ddepth, // Pixel depth of output (e.g., CV_8U)
+               xorder, // order of corresponding derivative in x
+               yorder, // order of corresponding derivative in y
+               ksize, // Kernel size
+               scale, // Scale (applied before assignment)
+               delta, // Offset (applied before assignment)
+               cv::BORDER_DEFAULT // Border extrapolation
+    );
+
+    cv::cvtColor( dst_frame, dst_frame, cv::COLOR_BGR2RGB );
+    draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
+    this->update();
 }
 
 void Filter::setFilename(QString _fn)

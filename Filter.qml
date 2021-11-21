@@ -22,11 +22,22 @@ Window {
         height: 300
     }
 
+    function sobel() {
+        var x_ord = sb_x_order.value;
+        var y_ord = sb_y_order.value;
+        var ksize = sb_ksize.value;
+        var scale = sb_scale.value;
+        var delta = sb_delta.value;
+
+
+        filter_scan.sobelDeriv(x_ord, y_ord, ksize, scale, delta);
+    }
+
     Rectangle {
         id: rectangle
         x: 949
         y: 259
-        width: 216
+        width: 230
         height: 392
 
 
@@ -83,15 +94,15 @@ Window {
                         y: 202
                         text: qsTr("Calc matrix")
                         onClicked: {
-//                            console.log( matrix_row1.model.get(0).value,
-//                                        matrix_row1.model.get(1).value,
-//                                        matrix_row1.model.get(2).value) ;
-//                            console.log( matrix_row2.model.get(0).value,
-//                                        matrix_row2.model.get(1).value,
-//                                        matrix_row2.model.get(2).value) ;
-//                            console.log( matrix_row3.model.get(0).value,
-//                                        matrix_row3.model.get(1).value,
-//                                        matrix_row3.model.get(2).value) ;
+                            //                            console.log( matrix_row1.model.get(0).value,
+                            //                                        matrix_row1.model.get(1).value,
+                            //                                        matrix_row1.model.get(2).value) ;
+                            //                            console.log( matrix_row2.model.get(0).value,
+                            //                                        matrix_row2.model.get(1).value,
+                            //                                        matrix_row2.model.get(2).value) ;
+                            //                            console.log( matrix_row3.model.get(0).value,
+                            //                                        matrix_row3.model.get(1).value,
+                            //                                        matrix_row3.model.get(2).value) ;
 
                             var m = Qt.matrix4x4();
                             m.m11 = Number.fromLocaleString(locale,  matrix_row1.model.get(0).value );
@@ -268,6 +279,121 @@ Window {
                 Rectangle{
                     anchors.fill: parent
                     color: "green"
+
+                    ColumnLayout {
+                        x: 10
+                        y: 20
+
+                        RowLayout {
+                            spacing: 4
+
+                            Text {
+                                id: text1
+                                text: qsTr("X order")
+                                font.pixelSize: 12
+                                Layout.preferredHeight: 14
+                                Layout.preferredWidth: 69
+                            }
+
+                            SpinBox {
+                                id: sb_x_order
+                                to: 3
+                                from: 1
+                                value: 1
+                                onValueChanged: sobel();
+                            }
+                        }
+
+                        RowLayout {
+                            spacing: 4
+
+                            Text {
+                                id: text2
+                                text: qsTr("Y order")
+                                font.pixelSize: 12
+                                Layout.preferredHeight: 14
+                                Layout.preferredWidth: 69
+                            }
+
+                            SpinBox {
+                                id: sb_y_order
+                                to: 3
+                                from: 1
+                                value: 1
+                                onValueChanged: sobel();
+                            }
+                        }
+
+                        RowLayout {
+                            spacing: 4
+
+                            Text {
+                                id: text3
+                                text: qsTr("kernel Size")
+                                font.pixelSize: 12
+                                Layout.preferredHeight: 14
+                                Layout.preferredWidth: 69
+                            }
+
+                            SpinBox {
+                                id: sb_ksize
+                                stepSize: 2
+                                to: 7
+                                from: 1
+                                value: 3
+                                onValueChanged: sobel();
+                            }
+                        }
+
+                        RowLayout {
+                            spacing: 4
+                            Text {
+                                id: text4
+                                text: qsTr("scale")
+                                font.pixelSize: 12
+                                Layout.preferredHeight: 14
+                                Layout.preferredWidth: 69
+                            }
+
+                            SpinBox {
+                                id: sb_scale
+                                stepSize: 10
+                                to: 200
+                                from: 1
+                                value: 1
+                                onValueChanged: sobel();
+                            }
+                        }
+
+                        RowLayout {
+                            spacing: 4
+                            Text {
+                                id: text5
+                                text: qsTr("detla")
+                                font.pixelSize: 12
+                                Layout.preferredHeight: 14
+                                Layout.preferredWidth: 69
+                            }
+
+                            SpinBox {
+                                id: sb_delta
+                                to: 300
+                                stepSize: 20
+                                onValueChanged: sobel();
+                            }
+                        }
+
+                        Button {
+                            id: btn_sobel
+                            text: "Sobel"
+                            anchors.horizontalCenter:  parent.horizontalCenter
+                            onClicked: {
+                                sobel();
+                            }
+                        }
+                    }
+
+
                 }
             }
             Item {
@@ -358,13 +484,15 @@ Window {
     }
 
 
+
 }
 
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:1.1}D{i:5}D{i:11}D{i:13}D{i:22}D{i:31}D{i:12}D{i:4}D{i:3}D{i:41}
-D{i:40}D{i:43}D{i:42}D{i:2}D{i:46}D{i:47}D{i:48}D{i:45}D{i:44}D{i:49}D{i:50}D{i:1}
-D{i:52}D{i:53}D{i:51}
+    D{i:0;formeditorZoom:1.1}D{i:1}D{i:6}D{i:12}D{i:14}D{i:23}D{i:32}D{i:13}D{i:5}D{i:4}
+D{i:45}D{i:46}D{i:44}D{i:48}D{i:49}D{i:47}D{i:51}D{i:52}D{i:50}D{i:54}D{i:55}D{i:53}
+D{i:57}D{i:58}D{i:56}D{i:59}D{i:43}D{i:42}D{i:41}D{i:61}D{i:60}D{i:3}D{i:64}D{i:65}
+D{i:66}D{i:63}D{i:62}D{i:67}D{i:68}D{i:2}D{i:70}D{i:71}D{i:69}D{i:72}
 }
 ##^##*/
