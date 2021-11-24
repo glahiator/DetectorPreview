@@ -114,6 +114,32 @@ void Filter::laplacianDeriv(int ksize, double scale, double delta)
 
 }
 
+void Filter::morphologyEx(int op, int iterations, int shape, int _ks)
+{
+    if( src_frame.empty() ){
+        qDebug() << "empty source" ;
+        return;
+    }
+    cv::Size ksize = cv::Size(_ks, _ks);
+    cv::InputArray 	kernel =  cv::getStructuringElement	(shape,
+                                                         ksize,
+                                                         cv::Point(-1,-1)
+                                                         );
+
+    cv::morphologyEx(src_frame,
+                     dst_frame,
+                     op,
+                     kernel,
+                     cv::Point(-1,-1),
+                     iterations,
+                     cv::BORDER_CONSTANT
+    );
+
+    cv::cvtColor( dst_frame, dst_frame, cv::COLOR_BGR2RGB );
+    draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
+    this->update();
+}
+
 void Filter::setFilename(QString _fn)
 {
     if( _fn.isEmpty() ){

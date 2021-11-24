@@ -25,6 +25,7 @@ public:
     Q_INVOKABLE void sobelDeriv( int xorder, int yorder, int ksize, double scale, double delta );
     Q_INVOKABLE void scharrDeriv( int xorder, int yorder, double scale, double delta );
     Q_INVOKABLE void laplacianDeriv(int ksize, double scale, double delta);
+    Q_INVOKABLE void morphologyEx(int op, int iterations, int shape, int _ks);
 
     void setFilename( QString _fn );
 

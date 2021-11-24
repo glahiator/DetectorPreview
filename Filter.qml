@@ -40,6 +40,14 @@ Window {
         }
     }
 
+    function morphology() {
+        var op = cb_morh_op.model.get(cb_morh_op.currentIndex).value;
+        var shape = cb_morh_shape.model.get(cb_morh_shape.currentIndex).value;
+        var iter = sb_morph_iter.value;
+        var ksize = sb_morph_ksize.value;
+        filter_scan.morphologyEx(op, iter, shape, ksize);
+    }
+
     Rectangle {
         id: rectangle
         x: 949
@@ -52,7 +60,7 @@ Window {
             id: view
             visible: true
 
-            currentIndex: 0
+            currentIndex: 2
             anchors.fill: parent
             anchors.topMargin: toolbar.height
 
@@ -336,7 +344,7 @@ Window {
 
                         RowLayout {
                             spacing: 4
-                             visible: (is_scharr.checked) ? false : true
+                            visible: (is_scharr.checked) ? false : true
 
                             Text {
                                 id: text3
@@ -427,11 +435,150 @@ Window {
                 id: thirdPage
                 Rectangle{
                     anchors.fill: parent
-                    color: "blue"
+                    color: "#b6b6f8"
+
+
+                    ColumnLayout {
+                        x: 8
+                        y: 22
+
+                        RowLayout {
+
+                            Text {
+                                id: text_iter1
+                                text: qsTr("Operation")
+                                font.pixelSize: 12
+                                Layout.preferredWidth: 69
+                                Layout.preferredHeight: 14
+                            }
+
+                            ComboBox {
+                                id: cb_morh_op
+                                flat: false
+                                textRole: "key"
+                                currentIndex: 0
+                                editable: false
+                                model: ListModel {
+                                    ListElement {
+                                        key: "ERODE"
+                                        value: 0
+                                    }
+
+                                    ListElement {
+                                        key: "DILATE"
+                                        value: 1
+                                    }
+
+                                    ListElement {
+                                        key: "OPEN"
+                                        value: 2
+                                    }
+
+                                    ListElement {
+                                        key: "CLOSE"
+                                        value: 3
+                                    }
+
+                                    ListElement {
+                                        key: "GRADIENT"
+                                        value: 4
+                                    }
+                                    ListElement {
+                                        key: "TOPHAT"
+                                        value: 5
+                                    }
+
+                                    ListElement {
+                                        key: "BLACKHAT"
+                                        value: 6
+                                    }
+                                }
+                                onCurrentIndexChanged: {
+                                    morphology();
+                                }
+                            }
+                        }
+
+                        RowLayout {
+
+                            Text {
+                                id: text_iter2
+                                text: qsTr("Shape")
+                                font.pixelSize: 12
+                                Layout.preferredWidth: 69
+                                Layout.preferredHeight: 14
+                            }
+
+                            ComboBox {
+                                id: cb_morh_shape
+                                flat: false
+                                textRole: "key"
+                                currentIndex: 0
+                                editable: false
+                                model: ListModel {
+                                    ListElement {
+                                        key: "RECT"
+                                        value: 0
+                                    }
+
+                                    ListElement {
+                                        key: "CROSS"
+                                        value: 1
+                                    }
+
+                                    ListElement {
+                                        key: "ELLIPSE"
+                                        value: 2
+                                    }
+                                }
+                                onCurrentIndexChanged: {
+                                    morphology();
+                                }
+                            }
+                        }
+
+                        RowLayout {
+
+                            Text {
+                                id: text_ksize
+                                text: qsTr("Kernel size")
+                                font.pixelSize: 12
+                                Layout.preferredHeight: 14
+                                Layout.preferredWidth: 69
+                            }
+
+                            SpinBox {
+                                id: sb_morph_ksize
+                                to: 19
+                                from: 1
+                                value: 3
+                                stepSize: 2
+                                onValueChanged: morphology();
+                            }
+                        }
+
+                        RowLayout {
+
+                            Text {
+                                id: text_iter
+                                text: qsTr("Iterations")
+                                font.pixelSize: 12
+                                Layout.preferredHeight: 14
+                                Layout.preferredWidth: 69
+                            }
+
+                            SpinBox {
+                                id: sb_morph_iter
+                                to: 100
+                                from: 1
+                                value: 1
+                                onValueChanged: morphology();
+                            }
+                        }
+                    }
                 }
             }
         }
-
         ToolBar {
             id: toolbar
             anchors.left: parent.left
@@ -519,7 +666,9 @@ Window {
 Designer {
     D{i:0;formeditorZoom:1.1}D{i:1}D{i:6}D{i:12}D{i:14}D{i:23}D{i:32}D{i:13}D{i:5}D{i:4}
 D{i:45}D{i:46}D{i:44}D{i:48}D{i:49}D{i:47}D{i:51}D{i:52}D{i:50}D{i:54}D{i:55}D{i:53}
-D{i:57}D{i:58}D{i:56}D{i:59}D{i:43}D{i:42}D{i:41}D{i:61}D{i:60}D{i:3}D{i:64}D{i:65}
-D{i:66}D{i:63}D{i:62}D{i:67}D{i:68}D{i:2}D{i:70}D{i:71}D{i:69}D{i:72}
+D{i:57}D{i:58}D{i:56}D{i:59}D{i:61}D{i:62}D{i:60}D{i:43}D{i:42}D{i:41}D{i:67}D{i:68}
+D{i:66}D{i:78}D{i:79}D{i:77}D{i:85}D{i:86}D{i:84}D{i:88}D{i:89}D{i:87}D{i:65}D{i:64}
+D{i:63}D{i:3}D{i:92}D{i:93}D{i:94}D{i:91}D{i:90}D{i:95}D{i:96}D{i:2}D{i:98}D{i:99}
+D{i:97}D{i:100}
 }
 ##^##*/
