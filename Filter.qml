@@ -7,6 +7,7 @@ import QtQuick.Layouts 1.12
 import Qt.labs.qmlmodels 1.0
 
 import opencv.Filter 1.0
+import opencv.Drawing 1.0
 Window {
     id: wnd_filter
     width: 1200
@@ -20,7 +21,22 @@ Window {
         y: 100
         width: imgWidth
         height: imgHeight
+        visible: false
+    }
+    DrawingScan {
+        id: drawing_scan
+        filename: ""
+        x: 100
+        y: 100
+        width: imgWidth
+        height: imgHeight
+        visible: true
 
+        onSrcImageSizeChanged: {
+            console.log(imgWidth, imgHeight);
+            sb_resize_width.value = imgWidth;
+            sb_resize_height.value = imgHeight;
+        }
     }
 
     function sobel() {
@@ -54,6 +70,13 @@ Window {
         filter_scan.applyColorMap(colorType);
     }
 
+    function resizeImage() {
+        var interType = cb_resize_img.model.get( cb_resize_img.currentIndex ).value;
+        var width = sb_resize_width.value;
+        var height = sb_resize_height.value;
+        drawing_scan.resize(width, height, interType);
+    }
+
     Rectangle {
         id: rectangle
         x: 949
@@ -66,7 +89,7 @@ Window {
             id: view
             visible: true
 
-            currentIndex: 3
+            currentIndex: 4
             anchors.fill: parent
             anchors.topMargin: toolbar.height
 
@@ -693,9 +716,117 @@ Window {
                             colorMapping();
                         }
                     }
+
+                    Button{
+                        x: 10
+                        y: 100
+                        width: 100
+                        height: 50
+                        text: "Pyr Down"
+                        onClicked: filter_scan.pyrDown();
+                    }
+
+                    Button{
+                        x: 10
+                        y: 160
+                        width: 100
+                        height: 50
+                        text: "Pyr Up"
+                        onClicked: filter_scan.pyrUp();
+                    }
                 }
             }
+            Item {
+                id: fivePage
+                Rectangle{
+                    anchors.fill: parent
+                    color: "#b6b6f8"
 
+                    ColumnLayout {
+                        x: 23
+                        y: 51
+
+                        RowLayout {
+
+                            Label {
+                                id: label
+                                text: qsTr("Width ")
+                            }
+
+                            SpinBox {
+                                id: sb_resize_width
+                                editable: true
+                                stepSize: 100
+                                to: 1500
+//                                onValueChanged: resizeImage()
+                            }
+                        }
+
+                        RowLayout {
+
+                            Label {
+                                id: label1
+                                text: qsTr("Height")
+                            }
+
+                            SpinBox {
+                                id: sb_resize_height
+                                editable: true
+                                stepSize: 100
+                                to: 1500
+//                                onValueChanged: resizeImage();
+                            }
+                        }
+
+                        RowLayout {
+
+                            Label {
+                                id: label2
+                                text: qsTr("Interp ")
+                            }
+
+                            ComboBox {
+                                id: cb_resize_img
+                                flat: false
+                                textRole: "key"
+                                currentIndex: 0
+                                editable: false
+
+                                model: ListModel {
+                                    ListElement {
+                                        key: "NEAREST"
+                                        value: 0
+                                    }
+                                    ListElement {
+                                        key: "LINEAR"
+                                        value: 1
+                                    }
+                                    ListElement {
+                                        key: "CUBIC"
+                                        value: 2
+                                    }
+                                    ListElement {
+                                        key: "AREA"
+                                        value: 3
+                                    }
+                                    ListElement {
+                                        key: "LANCZOS4"
+                                        value: 4
+                                    }
+                                    ListElement {
+                                        key: "LINEAR_EXACT"
+                                        value: 5
+                                    }
+
+                                }
+                                onCurrentIndexChanged: {
+                                    resizeImage();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
         }
         ToolBar {
@@ -758,7 +889,10 @@ Window {
         Button {
             id: btn_reset_image
             text: qsTr("Reset image")
-            onClicked:  filter_scan.resetImage();
+            onClicked:  {
+                drawing_scan.resetImage();
+                filter_scan.resetImage();
+            }
         }
     }
 
@@ -768,7 +902,8 @@ Window {
         folder: shortcuts.pictures
         visible: false
         onAccepted: {
-            filter_scan.filename = fileDialog.fileUrl
+            filter_scan.filename = fileDialog.fileUrl;
+            drawing_scan.filename = fileDialog.fileUrl;
         }
     }
 
@@ -779,11 +914,12 @@ Window {
 
 /*##^##
 Designer {
-    D{i:0;formeditorZoom:1.1}D{i:1}D{i:6}D{i:12}D{i:14}D{i:23}D{i:32}D{i:13}D{i:5}D{i:4}
-D{i:45}D{i:46}D{i:44}D{i:48}D{i:49}D{i:47}D{i:51}D{i:52}D{i:50}D{i:54}D{i:55}D{i:53}
-D{i:57}D{i:58}D{i:56}D{i:59}D{i:61}D{i:62}D{i:60}D{i:43}D{i:42}D{i:41}D{i:67}D{i:68}
-D{i:66}D{i:78}D{i:79}D{i:77}D{i:85}D{i:86}D{i:84}D{i:88}D{i:89}D{i:87}D{i:65}D{i:64}
-D{i:63}D{i:92}D{i:91}D{i:90}D{i:3}D{i:118}D{i:119}D{i:120}D{i:117}D{i:116}D{i:121}
-D{i:122}D{i:2}D{i:124}D{i:125}D{i:123}D{i:126}
+    D{i:0;formeditorZoom:1.1}D{i:1}D{i:2}D{i:7}D{i:13}D{i:15}D{i:24}D{i:33}D{i:14}D{i:6}
+D{i:5}D{i:46}D{i:47}D{i:45}D{i:49}D{i:50}D{i:48}D{i:52}D{i:53}D{i:51}D{i:55}D{i:56}
+D{i:54}D{i:58}D{i:59}D{i:57}D{i:60}D{i:62}D{i:63}D{i:61}D{i:44}D{i:43}D{i:42}D{i:68}
+D{i:69}D{i:67}D{i:79}D{i:80}D{i:78}D{i:86}D{i:87}D{i:85}D{i:89}D{i:90}D{i:88}D{i:66}
+D{i:65}D{i:64}D{i:93}D{i:117}D{i:118}D{i:92}D{i:91}D{i:123}D{i:124}D{i:122}D{i:126}
+D{i:127}D{i:125}D{i:129}D{i:130}D{i:128}D{i:121}D{i:120}D{i:119}D{i:4}D{i:140}D{i:141}
+D{i:142}D{i:139}D{i:138}D{i:143}D{i:144}D{i:3}D{i:146}D{i:147}D{i:145}D{i:148}
 }
 ##^##*/

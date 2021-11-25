@@ -145,6 +145,32 @@ void Filter::applyColorMap(int colorMap)
     preparePaint();
 }
 
+void Filter::pyrDown()
+{
+    if( src_frame.empty() ){
+        qDebug() << "empty source" ;
+        return;
+    }
+
+    cv::pyrDown( src_frame,
+                 dst_frame);
+
+    preparePaint();
+}
+
+void Filter::pyrUp()
+{
+    if( src_frame.empty() ){
+        qDebug() << "empty source" ;
+        return;
+    }
+
+    cv::pyrUp(src_frame,
+              dst_frame);
+
+    preparePaint();
+}
+
 void Filter::setFilename(QString _fn)
 {
     if( _fn.isEmpty() ){

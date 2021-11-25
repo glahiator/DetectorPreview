@@ -4,6 +4,7 @@
 #include "Threshold.h"
 #include "Smoothing.h"
 #include "Filter.h"
+#include "Drawing.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,6 +18,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<Threshold>("opencv.Threshold", 1, 0, "ThresholdScan");
     qmlRegisterType<Smoothing>("opencv.Smoothing", 1, 0, "SmoothingScan");
     qmlRegisterType<Filter>( "opencv.Filter", 1, 0, "FilterScan" );
+    qmlRegisterType<Drawing>("opencv.Drawing", 1, 0, "DrawingScan");
+
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/Filter.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
