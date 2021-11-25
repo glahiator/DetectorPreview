@@ -26,6 +26,7 @@ public:
     Q_INVOKABLE void scharrDeriv( int xorder, int yorder, double scale, double delta );
     Q_INVOKABLE void laplacianDeriv(int ksize, double scale, double delta);
     Q_INVOKABLE void morphologyEx(int op, int iterations, int shape, int _ks);
+    Q_INVOKABLE void applyColorMap(int colorMap);
 
     void setFilename( QString _fn );
 

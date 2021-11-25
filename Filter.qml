@@ -48,6 +48,11 @@ Window {
         filter_scan.morphologyEx(op, iter, shape, ksize);
     }
 
+    function colorMapping() {
+        var colorType = cb_color_map.model.get( cb_color_map.currentIndex ).value;
+        filter_scan.applyColorMap(colorType);
+    }
+
     Rectangle {
         id: rectangle
         x: 949
@@ -60,7 +65,7 @@ Window {
             id: view
             visible: true
 
-            currentIndex: 2
+            currentIndex: 3
             anchors.fill: parent
             anchors.topMargin: toolbar.height
 
@@ -578,6 +583,119 @@ Window {
                     }
                 }
             }
+            Item{
+                id: fourthPage
+                Rectangle{
+                    anchors.fill: parent
+                    color: "#b6b6f8"
+
+                    ComboBox {
+                        id: cb_color_map
+                        x: 45
+                        y: 57
+                        flat: false
+                        textRole: "key"
+                        currentIndex: 0
+                        editable: false
+                        model: ListModel {
+                            ListElement {
+                                key: "AUTUMN"
+                                value: 0
+                            }
+                            ListElement {
+                                key: "BONE"
+                                value: 1
+                            }
+                            ListElement {
+                                key: "JET"
+                                value: 2
+                            }
+                            ListElement {
+                                key: "WINTER"
+                                value: 3
+                            }
+                            ListElement {
+                                key: "RAINBOW"
+                                value: 4
+                            }
+                            ListElement {
+                                key: "OCEAN"
+                                value: 5
+                            }
+                            ListElement {
+                                key: "SUMMER"
+                                value: 6
+                            }
+                            ListElement {
+                                key: "SPRING"
+                                value: 7
+                            }
+                            ListElement {
+                                key: "COOL"
+                                value: 8
+                            }
+                            ListElement {
+                                key: "HSV"
+                                value: 9
+                            }
+                            ListElement {
+                                key: "PINK"
+                                value: 10
+                            }
+                            ListElement {
+                                key: "HOT"
+                                value: 11
+                            }
+                            ListElement {
+                                key: "PARULA"
+                                value: 12
+                            }
+                            ListElement {
+                                key: "MAGMA"
+                                value: 13
+                            }
+
+                            ListElement {
+                                key: "INFERNO"
+                                value: 14
+                            }
+                            ListElement {
+                                key: "PLASMA"
+                                value: 15
+                            }
+                            ListElement {
+                                key: "VIRIDIS"
+                                value: 16
+                            }
+                            ListElement {
+                                key: "CIVIDIS"
+                                value: 17
+                            }
+                            ListElement {
+                                key: "TWILIGHT"
+                                value: 18
+                            }
+                            ListElement {
+                                key: "TWILIGHT_SHIFTED"
+                                value: 19
+                            }
+                            ListElement {
+                                key: "TURBO"
+                                value: 20
+                            }
+                            ListElement {
+                                key: "DEEPGREEN"
+                                value: 21
+                            }
+                        }
+                        onCurrentIndexChanged: {
+                            colorMapping();
+                        }
+                    }
+                }
+            }
+
+
         }
         ToolBar {
             id: toolbar
@@ -668,7 +786,7 @@ Designer {
 D{i:45}D{i:46}D{i:44}D{i:48}D{i:49}D{i:47}D{i:51}D{i:52}D{i:50}D{i:54}D{i:55}D{i:53}
 D{i:57}D{i:58}D{i:56}D{i:59}D{i:61}D{i:62}D{i:60}D{i:43}D{i:42}D{i:41}D{i:67}D{i:68}
 D{i:66}D{i:78}D{i:79}D{i:77}D{i:85}D{i:86}D{i:84}D{i:88}D{i:89}D{i:87}D{i:65}D{i:64}
-D{i:63}D{i:3}D{i:92}D{i:93}D{i:94}D{i:91}D{i:90}D{i:95}D{i:96}D{i:2}D{i:98}D{i:99}
-D{i:97}D{i:100}
+D{i:63}D{i:92}D{i:91}D{i:90}D{i:3}D{i:118}D{i:119}D{i:120}D{i:117}D{i:116}D{i:121}
+D{i:122}D{i:2}D{i:124}D{i:125}D{i:123}D{i:126}
 }
 ##^##*/

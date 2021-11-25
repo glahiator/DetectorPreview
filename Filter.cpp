@@ -140,6 +140,24 @@ void Filter::morphologyEx(int op, int iterations, int shape, int _ks)
     this->update();
 }
 
+void Filter::applyColorMap(int colorMap)
+{
+    if( src_frame.empty() ){
+        qDebug() << "empty source" ;
+        return;
+    }
+
+    qDebug() << "COLOR MAP" << colorMap;
+    cv::applyColorMap( src_frame,
+                       dst_frame,
+                       colorMap);
+
+
+    cv::cvtColor( dst_frame, dst_frame, cv::COLOR_BGR2RGB );
+    draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
+    this->update();
+}
+
 void Filter::setFilename(QString _fn)
 {
     if( _fn.isEmpty() ){
@@ -151,9 +169,6 @@ void Filter::setFilename(QString _fn)
     emit filenameChanged(filename);
 
     src_frame = cv::imread(filename.toStdString());
-
-
-    qDebug() << "IMAGE PREF" << src_frame.channels() << src_frame.type() << src_frame.depth() << src_frame.rows << src_frame.cols;
 
     if( src_frame.empty() ){
         qDebug() << filename << "error loading" ;
