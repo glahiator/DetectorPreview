@@ -21,6 +21,7 @@ class Filter : public QQuickPaintedItem
 
 public:
     Filter(QQuickItem *item = nullptr);
+    void preparePaint();
     void paint(QPainter * painter);
     Q_INVOKABLE void resetImage( );
     Q_INVOKABLE void filter2DImage(QMatrix4x4 _m);

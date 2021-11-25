@@ -6,6 +6,17 @@ Filter::Filter(QQuickItem *item) : QQuickPaintedItem(item)
 
 }
 
+void Filter::preparePaint()
+{
+    cv::cvtColor( dst_frame, dst_frame, cv::COLOR_BGR2RGB );
+    draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
+    m_imgHeight = draw_img.height();
+    m_imgWidth = draw_img.width();
+    emit imgHeightChanged();
+    emit imgWidthChanged();
+    this->update();
+}
+
 void Filter::paint(QPainter *painter)
 {
     painter->drawImage(QPoint(0,0), draw_img);
@@ -17,9 +28,9 @@ void Filter::resetImage()
         qDebug() << "empty source" ;
         return;
     }
-    cv::cvtColor( src_frame, dst_frame, cv::COLOR_BGR2RGB );
-    draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
-    this->update();
+
+    src_frame.copyTo(dst_frame);
+    preparePaint();
 }
 void Filter::filter2DImage( QMatrix4x4 _m )
 {
@@ -34,11 +45,7 @@ void Filter::filter2DImage( QMatrix4x4 _m )
     int depth = -1; // output depth same as source
     filter2D(src_frame,dst_frame,depth,f2dkernel);
 
-    cv::cvtColor( dst_frame, dst_frame, cv::COLOR_BGR2RGB );
-    draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
-    this->update();
-
-
+    preparePaint();
 }
 void Filter::sobelDeriv( int xorder, int yorder, int ksize, double scale, double delta )
 {
@@ -60,9 +67,7 @@ void Filter::sobelDeriv( int xorder, int yorder, int ksize, double scale, double
                cv::BORDER_DEFAULT // Border extrapolation
     );
 
-    cv::cvtColor( dst_frame, dst_frame, cv::COLOR_BGR2RGB );
-    draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
-    this->update();
+    preparePaint();
 }
 void Filter::scharrDeriv(int xorder, int yorder, double scale, double delta)
 {
@@ -82,9 +87,7 @@ void Filter::scharrDeriv(int xorder, int yorder, double scale, double delta)
                 delta, // Offset (applied before assignment)
                 cv::BORDER_DEFAULT // Border extrapolation
                 );
-    cv::cvtColor( dst_frame, dst_frame, cv::COLOR_BGR2RGB );
-    draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
-    this->update();
+    preparePaint();
 }
 void Filter::laplacianDeriv(int ksize, double scale, double delta)
 {
@@ -104,10 +107,7 @@ void Filter::laplacianDeriv(int ksize, double scale, double delta)
                   cv::BORDER_DEFAULT // Border extrapolation
                   );
 
-    cv::cvtColor( dst_frame, dst_frame, cv::COLOR_BGR2RGB );
-    draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
-    this->update();
-
+    preparePaint();
 }
 void Filter::morphologyEx(int op, int iterations, int shape, int _ks)
 {
@@ -130,9 +130,7 @@ void Filter::morphologyEx(int op, int iterations, int shape, int _ks)
                      cv::BORDER_CONSTANT
     );
 
-    cv::cvtColor( dst_frame, dst_frame, cv::COLOR_BGR2RGB );
-    draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
-    this->update();
+    preparePaint();
 }
 void Filter::applyColorMap(int colorMap)
 {
@@ -144,11 +142,7 @@ void Filter::applyColorMap(int colorMap)
     cv::applyColorMap( src_frame,
                        dst_frame,
                        colorMap);
-
-
-    cv::cvtColor( dst_frame, dst_frame, cv::COLOR_BGR2RGB );
-    draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
-    this->update();
+    preparePaint();
 }
 
 void Filter::setFilename(QString _fn)
@@ -168,11 +162,5 @@ void Filter::setFilename(QString _fn)
         return;
     }
 
-    cv::cvtColor( src_frame, dst_frame, cv::COLOR_BGR2RGB );    
-    draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
-    m_imgHeight = draw_img.height();
-    m_imgWidth = draw_img.width();
-    emit imgHeightChanged();
-    emit imgWidthChanged();
-    this->update();
+    resetImage();
 }
