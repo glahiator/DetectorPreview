@@ -21,7 +21,6 @@ void Filter::resetImage()
     draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
     this->update();
 }
-
 void Filter::filter2DImage( QMatrix4x4 _m )
 {
     if( src_frame.empty() ){
@@ -41,7 +40,6 @@ void Filter::filter2DImage( QMatrix4x4 _m )
 
 
 }
-
 void Filter::sobelDeriv( int xorder, int yorder, int ksize, double scale, double delta )
 {
     if( src_frame.empty() ){
@@ -66,7 +64,6 @@ void Filter::sobelDeriv( int xorder, int yorder, int ksize, double scale, double
     draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
     this->update();
 }
-
 void Filter::scharrDeriv(int xorder, int yorder, double scale, double delta)
 {
     if( src_frame.empty() ){
@@ -89,7 +86,6 @@ void Filter::scharrDeriv(int xorder, int yorder, double scale, double delta)
     draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
     this->update();
 }
-
 void Filter::laplacianDeriv(int ksize, double scale, double delta)
 {
     if( src_frame.empty() ){
@@ -113,7 +109,6 @@ void Filter::laplacianDeriv(int ksize, double scale, double delta)
     this->update();
 
 }
-
 void Filter::morphologyEx(int op, int iterations, int shape, int _ks)
 {
     if( src_frame.empty() ){
@@ -139,7 +134,6 @@ void Filter::morphologyEx(int op, int iterations, int shape, int _ks)
     draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
     this->update();
 }
-
 void Filter::applyColorMap(int colorMap)
 {
     if( src_frame.empty() ){
@@ -147,7 +141,6 @@ void Filter::applyColorMap(int colorMap)
         return;
     }
 
-    qDebug() << "COLOR MAP" << colorMap;
     cv::applyColorMap( src_frame,
                        dst_frame,
                        colorMap);
@@ -175,7 +168,11 @@ void Filter::setFilename(QString _fn)
         return;
     }
 
-    cv::cvtColor( src_frame, dst_frame, cv::COLOR_BGR2RGB );
+    cv::cvtColor( src_frame, dst_frame, cv::COLOR_BGR2RGB );    
     draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
+    m_imgHeight = draw_img.height();
+    m_imgWidth = draw_img.width();
+    emit imgHeightChanged();
+    emit imgWidthChanged();
     this->update();
 }

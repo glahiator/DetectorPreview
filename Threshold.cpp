@@ -26,7 +26,6 @@ void Threshold::threshold(double _thresh, double _mv, int _type)
     draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
     this->update();
 }
-
 void Threshold::threshold_alt(double _thresh, double _mv, int _type)
 {
     // Split image onto the color planes.
@@ -49,7 +48,6 @@ void Threshold::threshold_alt(double _thresh, double _mv, int _type)
     draw_img = QImage( dst_frame.data, dst_frame.cols, dst_frame.rows, QImage::Format_RGB888 );
     this->update();
 }
-
 void Threshold::threshold_adapt( double _mv, int _adapt_meth, int _type, int _bs, double _const)
 {
     qDebug() << _bs;

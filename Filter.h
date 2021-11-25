@@ -16,6 +16,8 @@ class Filter : public QQuickPaintedItem
 {
     Q_OBJECT
     Q_PROPERTY(QString filename WRITE setFilename NOTIFY filenameChanged MEMBER filename)
+    Q_PROPERTY(int imgHeight  NOTIFY imgHeightChanged MEMBER m_imgHeight)
+    Q_PROPERTY(int imgWidth  NOTIFY imgHeightChanged MEMBER m_imgWidth)
 
 public:
     Filter(QQuickItem *item = nullptr);
@@ -35,8 +37,13 @@ public:
     cv::Mat dst_frame;
     QString filename;
 
+    int m_imgHeight;
+    int m_imgWidth;
+
 signals:
     void filenameChanged( QString _fn );
+    void imgHeightChanged();
+    void imgWidthChanged();
 };
 
 #endif // FILTER_H

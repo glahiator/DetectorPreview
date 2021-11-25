@@ -18,8 +18,9 @@ Window {
         filename: ""
         x: 100
         y: 100
-        width: 300
-        height: 300
+        width: imgWidth
+        height: imgHeight
+
     }
 
     function sobel() {
@@ -768,10 +769,6 @@ Window {
         visible: false
         onAccepted: {
             filter_scan.filename = fileDialog.fileUrl
-            rct_boxfilter.visible = true
-            //            src_img.source = fileDialog.fileUrl
-            //            threshConfig.visible = true
-            //            rct_adapt_tresh.visible = true
         }
     }
 
