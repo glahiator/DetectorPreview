@@ -74,7 +74,11 @@ Window {
         var interType = cb_resize_img.model.get( cb_resize_img.currentIndex ).value;
         var width = sb_resize_width.value;
         var height = sb_resize_height.value;
-        drawing_scan.resize(width, height, interType);
+        if( width != 0 && height != 0 ){
+            drawing_scan.resize(width, height, interType);
+        }
+
+
     }
 
     Rectangle {
@@ -758,7 +762,7 @@ Window {
                                 editable: true
                                 stepSize: 100
                                 to: 1500
-//                                onValueChanged: resizeImage()
+                                onValueChanged: resizeImage()
                             }
                         }
 
@@ -774,7 +778,7 @@ Window {
                                 editable: true
                                 stepSize: 100
                                 to: 1500
-//                                onValueChanged: resizeImage();
+                                onValueChanged: resizeImage();
                             }
                         }
 
