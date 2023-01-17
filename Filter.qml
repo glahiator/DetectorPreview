@@ -77,8 +77,6 @@ Window {
         if( width != 0 && height != 0 ){
             drawing_scan.resize(width, height, interType);
         }
-
-
     }
 
     Rectangle {
