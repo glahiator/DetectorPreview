@@ -3,22 +3,24 @@ QT += quick qml
 CONFIG += c++11
 
 SOURCES += \
-        DetectorScan.cpp \
-        Drawing.cpp \
-        Filter.cpp \
-        Smoothing.cpp \
-        Threshold.cpp \
-        main.cpp
+        src/DetectorScan.cpp \
+        src/Drawing.cpp \
+        src/Filter.cpp \
+        src/Smoothing.cpp \
+        src/Threshold.cpp \
+        src/main.cpp
 
 HEADERS += \
-    DetectorScan.h \
-    Drawing.h \
-    Filter.h \
-    Smoothing.h \
-    Threshold.h
+    include/DetectorScan.h \
+    include/Drawing.h \
+    include/Filter.h \
+    include/Smoothing.h \
+    include/Threshold.h
 
-RESOURCES += qml.qrc
+RESOURCES += res/qml.qrc
 
+
+INCLUDEPATH += $$PWD/include/
 INCLUDEPATH += C:\Users\glaha\Documents\Workspace\Libs\ownBuild\opencv-4.4.0\build\install\include
 LIBS += C:\Users\glaha\Documents\Workspace\Libs\ownBuild\opencv-4.4.0\build\install\x64\mingw\bin\libopencv_core440.dll
 LIBS += C:\Users\glaha\Documents\Workspace\Libs\ownBuild\opencv-4.4.0\build\install\x64\mingw\bin\libopencv_highgui440.dll
